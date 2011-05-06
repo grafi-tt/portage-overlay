@@ -14,7 +14,7 @@ IUSE=""
 RDEPEND="${RDEPEND}
 	>=x11-libs/vte-0.12.1"
 DEPEND="${DEPEND}
-	>=x11-libs/vte-0.12.1
-	dev-util/pkgconfig"
+	>=x11-libs/vte-0.12.1"
 
 ruby_add_rdepend ">=dev-ruby/ruby-gtk2-${PV}"
+ruby_add_bdepend "dev-ruby/pkg-config"
