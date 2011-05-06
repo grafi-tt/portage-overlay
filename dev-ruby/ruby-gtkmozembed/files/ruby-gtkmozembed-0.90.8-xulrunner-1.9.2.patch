@@ -1,0 +1,10 @@
+--- ext/gtkmozembed/extconf.rb.orig	2011-05-06 17:01:32.940000636 +0900
++++ ext/gtkmozembed/extconf.rb	2011-05-06 17:02:47.359999516 +0900
+@@ -90,6 +90,7 @@
+ end
+ 
+ if have_library("xpcomglue")
++  $CFLAGS << " -I/usr/include/nspr "
+   have_header("gtkmozembed_glue.cpp") or exit 1
+   CONFIG['LDSHARED'].gsub!(/\$\(CC\)/, "$(CXX)")
+ elsif have_library("gtkembedmoz")
