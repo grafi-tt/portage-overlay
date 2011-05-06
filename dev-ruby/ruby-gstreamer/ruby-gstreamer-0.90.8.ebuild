@@ -16,7 +16,7 @@ RDEPEND="${RDEPEND}
 	=media-libs/gst-plugins-base-0.10*"
 DEPEND="${DEPEND}
 	=media-libs/gstreamer-0.10*
-	=media-libs/gst-plugins-base-0.10*
-	dev-util/pkgconfig"
+	=media-libs/gst-plugins-base-0.10*"
 
 ruby_add_rdepend ">=dev-ruby/ruby-glib2-${PV}"
+ruby_add_bdepend "dev-ruby/pkg-config"
