@@ -3,7 +3,7 @@
 # $Header: /var/cvsroot/gentoo-x86/dev-ruby/ruby-glib2/ruby-glib2-0.19.4.ebuild,v 1.7 2011/01/21 17:04:43 xarthisius Exp $
 
 EAPI="2"
-USE_RUBY="ruby18"
+USE_RUBY="ruby18 ruby19"
 
 inherit ruby-ng-gnome2-r1
 
