@@ -14,9 +14,9 @@ IUSE="cairo"
 RDEPEND="${RDEPEND}
 	>=gnome-base/librsvg-2.8"
 DEPEND="${DEPEND}
-	>=gnome-base/librsvg-2.8
-	dev-util/pkgconfig"
+	>=gnome-base/librsvg-2.8"
 
 ruby_add_rdepend ">=dev-ruby/ruby-glib2-${PV}
 	>=dev-ruby/ruby-gdk-pixbuf2-${PV}
 	cairo? ( dev-ruby/rcairo )"
+ruby_add_bdepend "dev-ruby/pkg-config"
