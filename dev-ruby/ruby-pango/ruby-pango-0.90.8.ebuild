@@ -18,3 +18,4 @@ RDEPEND="${RDEPEND}
 	>=dev-ruby/rcairo-1.2.0"
 
 ruby_add_rdepend ">=dev-ruby/ruby-glib2-${PV}"
+ruby_add_bdepend "dev-ruby/pkg-config"
