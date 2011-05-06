@@ -14,11 +14,11 @@ IUSE=""
 RDEPEND="${RDEPEND}
 	net-libs/xulrunner"
 DEPEND="${DEPEND}
-	net-libs/xulrunner
-	dev-util/pkgconfig"
+	net-libs/xulrunner"
 
 RUBY_PATCHES=( "${P}-xulrunner-1.9.2.patch" )
 
 ruby_add_rdepend ">=dev-ruby/ruby-glib2-${PV}
 	>=dev-ruby/ruby-pango-${PV}
 	>=dev-ruby/ruby-gtk2-${PV}"
+ruby_add_bdepend "dev-ruby/pkg-config"
