@@ -12,8 +12,7 @@ KEYWORDS="alpha amd64 ia64 ppc sparc x86"
 IUSE=""
 
 RDEPEND="${RDEPEND} x11-libs/gtk+:2"
-DEPEND="${DEPEND}
-	x11-libs/gtk+:2
-	dev-util/pkgconfig"
+DEPEND="${DEPEND} x11-libs/gtk+:2"
 
 ruby_add_rdepend ">=dev-ruby/ruby-glib2-${PV}"
+ruby_add_bdepend "dev-ruby/pkg-config"
