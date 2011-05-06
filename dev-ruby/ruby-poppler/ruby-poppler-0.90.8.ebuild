@@ -16,6 +16,6 @@ RDEPEND="${RDEPEND}
 DEPEND="${DEPEND}
 	>=app-text/poppler-0.12.3-r3[cairo]"
 
-ruby_add_rdepend "dev-ruby/ruby-gdkpixbuf2
+ruby_add_rdepend "dev-ruby/ruby-gdk-pixbuf2
 	>=dev-ruby/ruby-glib2-${PV}"
 ruby_add_bdepend "dev-ruby/pkg-config"
