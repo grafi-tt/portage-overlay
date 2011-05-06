@@ -14,8 +14,8 @@ IUSE=""
 RDEPEND="${RDEPEND}
 	>=app-text/poppler-0.12.3-r3[cairo]"
 DEPEND="${DEPEND}
-	>=app-text/poppler-0.12.3-r3[cairo]
-	dev-util/pkgconfig"
+	>=app-text/poppler-0.12.3-r3[cairo]"
 
 ruby_add_rdepend "dev-ruby/ruby-gdkpixbuf2
 	>=dev-ruby/ruby-glib2-${PV}"
+ruby_add_bdepend "dev-ruby/pkg-config"
