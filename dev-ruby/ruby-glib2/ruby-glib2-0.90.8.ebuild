@@ -11,6 +11,5 @@ DESCRIPTION="Ruby Glib2 bindings"
 KEYWORDS="alpha amd64 ia64 ppc ppc64 sparc x86 ~x86-macos"
 IUSE=""
 RDEPEND="${RDEPEND} >=dev-libs/glib-2"
-DEPEND="${DEPEND}
-	>=dev-libs/glib-2
-	dev-util/pkgconfig"
+DEPEND="${DEPEND} >=dev-libs/glib-2"
+ruby_add_bdepend "dev-ruby/pkg-config"
