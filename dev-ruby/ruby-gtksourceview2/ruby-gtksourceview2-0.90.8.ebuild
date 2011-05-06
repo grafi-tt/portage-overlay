@@ -13,8 +13,7 @@ IUSE=""
 
 RDEPEND="${RDEPEND}
 	=x11-libs/gtksourceview-2*"
-DEPEND="${DEPEND}
-	=x11-libs/gtksourceview-2*
-	dev-util/pkgconfig"
+DEPEND="${DEPEND} =x11-libs/gtksourceview-2*"
 
 ruby_add_rdepend ">=dev-ruby/ruby-gtk2-${PV}"
+ruby_add_bdepend "dev-ruby/pkg-config"
