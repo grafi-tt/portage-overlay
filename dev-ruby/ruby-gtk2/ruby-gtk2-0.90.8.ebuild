@@ -11,10 +11,11 @@ DESCRIPTION="Ruby Gtk2 bindings"
 KEYWORDS="alpha amd64 ia64 ppc sparc x86"
 IUSE=""
 
-DEPEND="${DEPEND} x11-libs/gtk+:2"
 RDEPEND="${RDEPEND} x11-libs/gtk+:2"
+DEPEND="${DEPEND} x11-libs/gtk+:2"
 
 ruby_add_rdepend ">=dev-ruby/ruby-gdk-pixbuf2-${PV}
 	>=dev-ruby/ruby-glib2-${PV}
 	>=dev-ruby/ruby-pango-${PV}
 	>=dev-ruby/ruby-atk-${PV}"
+ruby_add_bdepend "dev-ruby/pkg-config"
