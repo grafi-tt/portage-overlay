@@ -14,3 +14,4 @@ DEPEND="${DEPEND} dev-libs/atk"
 RDEPEND="${RDEPEND} dev-libs/atk"
 
 ruby_add_rdepend ">=dev-ruby/ruby-glib2-${PV}"
+ruby_add_bdepend "dev-ruby/pkg-config"
