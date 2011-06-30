@@ -33,7 +33,7 @@ src_install () {
 	insinto "${FONTDIR}"
 	for f in "1C" "1M" "1P"; do
 		cd ${WORKDIR}/${MY_PN}-${f}-${PV}
-		doins *.${FONT_SUFFIX}
+		doins *.${FONT_SUFFIX} || die
 		newdoc ${MY_PN}-README.txt ${MY_PN}-README.${f}.txt
 	done
 
