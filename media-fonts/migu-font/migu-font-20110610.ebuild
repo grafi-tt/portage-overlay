@@ -5,14 +5,15 @@
 EAPI="2"
 inherit font
 
+MY_PV_URINUM="52283"
 MY_PN="Migu"
 DESCRIPTION="M+ Japanese outline fonts mixed with IPA font and modified"
 HOMEPAGE="http://mix-mplus-ipa.sourceforge.jp/"
 
 SRC_URI="
-	mirror://sourceforge.jp/mix-mplus-ipa/52283/${MY_PN}-1C-${PV}.zip
-	mirror://sourceforge.jp/mix-mplus-ipa/52283/${MY_PN}-1M-${PV}.zip
-	mirror://sourceforge.jp/mix-mplus-ipa/52283/${MY_PN}-1P-${PV}.zip
+	mirror://sourceforge.jp/mix-mplus-ipa/${MY_PV_URINUM}/${MY_PN}-1C-${PV}.zip
+	mirror://sourceforge.jp/mix-mplus-ipa/${MY_PV_URINUM}/${MY_PN}-1M-${PV}.zip
+	mirror://sourceforge.jp/mix-mplus-ipa/${MY_PV_URINUM}/${MY_PN}-1P-${PV}.zip
 "
 
 LICENSE="mplus-fonts IPAfont"
