@@ -7,7 +7,7 @@ inherit font
 
 MY_PN="MigMix"
 MY_PV_URINUM="53033"
-DESCRIPTION="M+ Japanese outline fonts mixed with IPA font"
+DESCRIPTION="Arrangements of M+ Japanese outline fonts, mixed with IPA font"
 HOMEPAGE="http://mix-mplus-ipa.sourceforge.jp/"
 
 SRC_URI="
