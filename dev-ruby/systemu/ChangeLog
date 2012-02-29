@@ -1,0 +1,44 @@
+# ChangeLog for dev-ruby/systemu
+# Copyright 1999-2011 Gentoo Foundation; Distributed under the GPL v2
+# $Header: /var/cvsroot/gentoo-x86/dev-ruby/systemu/ChangeLog,v 1.8 2011/12/25 08:38:31 graaff Exp $
+
+*systemu-2.4.2 (25 Dec 2011)
+
+  25 Dec 2011; Hans de Graaff <graaff@gentoo.org> +systemu-2.4.2.ebuild:
+  Version bump.
+
+  25 Dec 2011; Hans de Graaff <graaff@gentoo.org> -systemu-1.2.0.ebuild,
+  -systemu-1.2.0-r1.ebuild, -systemu-2.2.0.ebuild, -systemu-2.3.0.ebuild:
+  Remove old versions.
+
+*systemu-2.4.1 (07 Dec 2011)
+
+  07 Dec 2011; Hans de Graaff <graaff@gentoo.org> +systemu-2.4.1.ebuild:
+  Version bump.
+
+*systemu-2.4.0 (16 Sep 2011)
+
+  16 Sep 2011; Hans de Graaff <graaff@gentoo.org> +systemu-2.4.0.ebuild:
+  Version bump.
+
+*systemu-2.3.0 (20 Aug 2011)
+
+  20 Aug 2011; Hans de Graaff <graaff@gentoo.org> +systemu-2.3.0.ebuild:
+  Version bump.
+
+*systemu-2.2.0 (15 Apr 2011)
+
+  15 Apr 2011; Hans de Graaff <graaff@gentoo.org> +systemu-2.2.0.ebuild:
+  Version bump.
+
+*systemu-1.2.0-r1 (17 Jul 2010)
+
+  17 Jul 2010; Hans de Graaff <graaff@gentoo.org> +systemu-1.2.0-r1.ebuild:
+  Install documentation and examples.
+
+*systemu-1.2.0 (03 Jul 2010)
+
+  03 Jul 2010; Benedikt Böhm <hollow@gentoo.org> +systemu-1.2.0.ebuild,
+  +metadata.xml:
+  initial ebuild, thanks to Gábor Vészi
+
