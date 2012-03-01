@@ -4,10 +4,6 @@
 
 EAPI="4"
 USE_RUBY="ruby18 ruby19"
-IUSE="asciidoc bluecloth coffeescript colorize_syntax erubis haml
-kramdown markaby maruku mustache rainpress rdiscount rdoc redcarpet redcloth
-recloth relativepaths rubypants sass slim typogruby uglifier xsl
-yui-compressor"
 
 RUBY_FAKEGEM_EXTRADOC="ChangeLog NEWS.md README.md"
 RUBY_FAKEGEM_BINWRAP="nanoc"
@@ -24,6 +20,10 @@ LICENSE="MIT"
 
 KEYWORDS="~amd64"
 SLOT="0"
+IUSE="asciidoc bluecloth coffeescript colorize_syntax erubis haml
+kramdown markaby maruku mustache rainpress rdiscount rdoc redcarpet redcloth
+recloth relativepaths rubypants sass slim typogruby uglifier xsl
+yui-compressor"
 
 # TODO: pygements.rb, lesscss, rainpress, slim
 ruby_add_rdepend "
