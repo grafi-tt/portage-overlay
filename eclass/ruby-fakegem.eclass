@@ -189,8 +189,8 @@ ruby_fakegem_gemspec_gemspec() {
 # rubygems creates an installation from a .gem file.
 ruby_fakegem_metadata_gemspec() {
 	case ${RUBY} in
-		ruby19)
-			${RUBY} -U -r yaml -e "puts Gem::Specification.from_yaml(File::open('$1').read).to_ruby" > $2
+		*ruby19)
+			${RUBY} -r yaml -e "puts Gem::Specification.from_yaml(File::open('$1', :encoding => 'UTF-8').read).to_ruby" > $2
 				;;
 		*)
 			${RUBY} -r yaml -e "puts Gem::Specification.from_yaml(File::open('$1').read).to_ruby" > $2
