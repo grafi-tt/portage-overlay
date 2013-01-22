@@ -1,0 +1,44 @@
+--- aclocal.m4.orig	2013-01-22 16:49:05.000000000 +0900
++++ aclocal.m4	2013-01-22 16:51:40.000000000 +0900
+@@ -93,10 +93,10 @@
+         exeext='.exe'
+         soext='.dll'
+         ;;
+-    i386-apple-darwin|powerpc-apple-darwin)
++    i386-apple-darwin*|powerpc-apple-darwin*)
+         soext='.dylib'
+         ;;
+-    x86_64-apple-darwin)
++    x86_64-apple-darwin*)
+         soext='.dylib'
+         ;;
+     esac
+@@ -416,13 +416,13 @@
+ [
+     AC_MSG_CHECKING([Setting up $2, $3, $4 and $5])
+     case $$1 in
+-    i386-apple-darwin)
++    i386-apple-darwin*)
+         $2="$$2 -m32"
+         $3="$$3 -m32"
+         $4="$$4 -arch i386"
+         $5="$$5 -m32"
+         ;;
+-    x86_64-apple-darwin)
++    x86_64-apple-darwin*)
+         $2="$$2 -m64"
+         $3="$$3 -m64"
+         $4="$$4 -arch x86_64"
+@@ -1934,6 +1934,12 @@
+             #      i686-gentoo-freebsd8.2
+     $2="freebsd"
+     ;;
++  darwin*)
++    $2="darwin"
++    ;;
++  solaris2.*)
++    $2="solaris2"
++    ;;
+   *)
+     echo "Unknown OS $1"
+     exit 1
