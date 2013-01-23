@@ -356,14 +356,13 @@ src_prepare() {
 
 		cd "${S}" # otherwise epatch will break
 
-		epatch "${FILESDIR}/${PN}-7.0.4-CHOST-prefix.patch"
-
+		# epatch "${FILESDIR}"/${PN}-7.2.1-freebsd-CHOST.patch
 		# epatch "${FILESDIR}"/${PN}-7.0.4-darwin8.patch
 		# failed to apply. FIXME
 		#epatch "${FILESDIR}"/${PN}-6.12.3-mach-o-relocation-limit.patch
 
+		epatch "${FILESDIR}"/${PN}-7.6.1-CHOST-prefix.patch
 		epatch "${FILESDIR}"/${PN}-7.6.1-prefix-respect-gcc.patch
-		# epatch "${FILESDIR}"/${PN}-7.2.1-freebsd-CHOST.patch
 
 		# one mode external depend with unstable ABI be careful to stash it
 		# avoid external libffi runtime when we build binaries
