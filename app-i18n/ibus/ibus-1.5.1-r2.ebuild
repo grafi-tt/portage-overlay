@@ -18,7 +18,7 @@ SRC_URI="http://ibus.googlecode.com/files/${P}.tar.gz"
 LICENSE="LGPL-2.1"
 SLOT="0"
 KEYWORDS="~alpha ~amd64 ~arm ~ia64 ~ppc ~ppc64 ~sparc ~x86 ~x86-fbsd"
-IUSE="dconf deprecated +gconf gtk +gtk3 +introspection nls +python test vala +X"
+IUSE="dconf deprecated +gconf gtk +gtk3 +introspection nls +python test +X"
 REQUIRED_USE="|| ( gtk gtk3 X )
 	deprecated? ( python )
 	python? ( || ( deprecated ( gtk3 introspection ) ) )" #342903
@@ -56,7 +56,7 @@ DEPEND="${COMMON_DEPEND}
 	dev-util/intltool
 	virtual/pkgconfig
 	nls? ( >=sys-devel/gettext-0.16.1 )
-	vala? ( $(vala_depend) )"
+	$(vala_depend)"
 
 # stress test in bus/ fails
 # IBUS-CRITICAL **: bus_test_client_init: assertion `ibus_bus_is_connected (_bus)' failed
@@ -76,12 +76,10 @@ src_prepare() {
 	sed -e 's/dconf update/$(NULL)/' \
 		-i data/dconf/Makefile.{am,in} || die
 	use python && python_clean_py-compile_files
-	use vala && vala_src_prepare
+	vala_src_prepare
 	epatch "${FILESDIR}"/${P}-setup.patch \
 		"${FILESDIR}"/${P}-queue-events.patch \
 		"${FILESDIR}"/${P}-use-system-keyboard-layout.patch
-	# force update stamp
-	echo stamp > "${S}"/ui/gtk3/ibus_ui_gtk3_vala.stamp
 	cp "${S}"/client/gtk2/ibusimcontext.c "${S}"/client/gtk3/ibusimcontext.c || die
 }
 
@@ -105,8 +103,8 @@ src_configure() {
 		$(use_enable gtk3 ui) \
 		$(use_enable nls) \
 		$(use_enable test tests) \
-		$(use_enable vala) \
 		$(use_enable X xim) \
+		--enable-vala \
 		${python_conf}
 }
 
