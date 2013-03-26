@@ -1,8 +1,10 @@
 # Copyright 1999-2008 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/app-dicts/ebview/ebview-0.3.6.ebuild,v 1.7 2008/01/09 15:22:04 armin76 Exp $
+# $Header: $
 
-inherit eutils
+EAPI=4
+
+inherit eutils autotools
 
 IUSE=""
 
@@ -21,15 +23,17 @@ DEPEND="${RDEPEND}
 	sys-devel/gettext
 	dev-util/pkgconfig"
 
-src_unpack() {
-	unpack ${A}
+src_prepare() {
+	epatch "${FILESDIR}"/${P}-destdir.patch
+	epatch "${FILESDIR}"/${P}-use-pangoxft.patch
+	eautoreconf
+}
 
-	cd "${S}"
-	epatch "${FILESDIR}"/${P}-destdir.diff
+src_configure () {
+	econf --with-eb-conf=/etc/eb.conf || die "econf failed"
 }
 
 src_compile() {
-	econf --with-eb-conf=/etc/eb.conf || die "econf failed"
 	emake || die "emake failed"
 }
 
@@ -41,5 +45,5 @@ src_install () {
 	cp "${FILESDIR}"/ebview.desktop "${D}"/usr/share/applications/
 	cp "${S}"/pixmaps/ebview-32x32.xpm "${D}"/usr/share/pixmaps/ebview.xpm
 
-	dodoc AUTHORS ChangeLog INSTALL* NEWS README TODO
+	dodoc AUTHORS ChangeLog INSTALL* NEWS README
 }
