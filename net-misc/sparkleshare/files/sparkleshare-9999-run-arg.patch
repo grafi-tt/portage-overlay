@@ -1,0 +1,13 @@
+diff --git a/SparkleShare/Linux/UserInterface.cs b/SparkleShare/Linux/UserInterface.cs
+index f95554eb..0dbb8500 100644
+--- a/SparkleShare/Linux/UserInterface.cs
++++ b/SparkleShare/Linux/UserInterface.cs
+@@ -62,7 +62,7 @@ namespace SparkleShare {
+ 
+         public void Run ()
+         {   
+-            (application as GLib.Application).Run ("org.sparkleshare.SparkleShare", new string [0]);
++            (application as GLib.Application).Run (0, null);
+         }
+ 
+ 

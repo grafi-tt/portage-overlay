@@ -1,0 +1,13 @@
+diff --git a/SparkleShare/Linux/SparkleUI.cs b/SparkleShare/Linux/SparkleUI.cs
+index 4c5b27b0..4bcc037c 100644
+--- a/SparkleShare/Linux/SparkleUI.cs
++++ b/SparkleShare/Linux/SparkleUI.cs
+@@ -61,7 +61,7 @@ namespace SparkleShare {
+ 
+         public void Run ()
+         {   
+-            (this.application as GLib.Application).Run (null, null);
++            (this.application as GLib.Application).Run (0, null);
+         }
+ 
+ 
