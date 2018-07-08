@@ -1,0 +1,88 @@
+# Copyright 1999-2018 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+
+EAPI=6
+PYTHON_COMPAT=( python2_7 python3_{4,5,6} )
+DISTUTILS_SINGLE_IMPL=1
+PYTHON_REQ_USE="xml"
+
+inherit distutils-r1 git-r3 linux-info systemd udev
+
+DESCRIPTION="cloud initialisation magic"
+HOMEPAGE="https://github.com/Azure/WALinuxAgent"
+#EGIT_REPO_URI="https://github.com/Azure/${PN}"
+EGIT_REPO_URI="https://github.com/grafi-tt/${PN}"
+
+LICENSE="Apache-2.0"
+SLOT="0"
+KEYWORDS=""
+IUSE="f2fs libressl systemd test xfs"
+
+CDEPEND="
+	sys-apps/grep
+	sys-apps/sed
+	virtual/awk
+	!libressl? ( dev-libs/openssl:0= )
+	libressl? ( dev-libs/libressl:0= )
+"
+DEPEND="
+	dev-python/setuptools[${PYTHON_USEDEP}]
+	test? (
+		${CDEPEND}
+		dev-python/mock[${PYTHON_USEDEP}]
+	)
+"
+RDEPEND="
+	${CDEPEND}
+	app-admin/sudo
+	net-misc/openssh
+	sys-apps/coreutils
+	sys-apps/iproute2
+	sys-apps/util-linux
+	sys-block/parted
+	sys-fs/e2fsprogs
+	virtual/udev
+	systemd? ( sys-apps/systemd )
+	!systemd? ( net-misc/dhcpcd )
+	f2fs? ( sys-fs/f2fs-tools )
+	xfs? ( sys-fs/xfsprogs )
+"
+
+CONFIG_CHECK=""
+
+pkg_setup() {
+	use f2fs && CONFIG_CHECK+=" ~CONFIG_F2FS_FS"
+	use xfs && CONFIG_CHECK+=" ~CONFIG_XFS_FS"
+	linux-info_pkg_setup
+	python-single-r1_pkg_setup
+}
+
+python_prepare_all() {
+	sed -i "s/\\(AGENT_VERSION\\) = .*/\\1 = '9999'/" \
+		"${S}"/azurelinuxagent/common/version.py || die
+	sed -i "s/\\(self\\.agent_conf_file_path\\) = \\(.*\\)/\\1 = '${EPREFIX}' \\2/" \
+		"${S}"/azurelinuxagent/common/osutil/default.py || die
+
+	distutils-r1_python_prepare_all
+}
+
+python_install() {
+	distutils-r1_python_install "--skip-data-files"
+
+	sed -i "1s%^#!/usr/bin/env python$%#!${EPYTHON}%" "${S}"/bin/waagent
+	dosbin "${S}"/bin/waagent
+}
+
+python_install_all() {
+	distutils-r1_python_install_all
+
+	insinto /etc
+	doins "${S}"/config/waagent.conf
+
+	insinto /etc/logrotate.d
+	doins "${S}"/config/waagent.logrotate
+
+	newinitd "${S}"/init/gentoo/waagent waagent
+	systemd_dounit "${S}"/init/waagent.service
+	udev_dorules "${S}"/config/*.rules
+}
