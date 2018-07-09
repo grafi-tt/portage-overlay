@@ -18,7 +18,7 @@ EGIT_REPO_URI="https://github.com/grafi-tt/${PN}"
 SRC_URI="
 	libressl? ( https://github.com/reyk/cloud-agent/archive/v0.6.tar.gz )
 "
-A_CMS="cloud-agent-0.6/cms"
+CMS_P="cloud-agent-0.6/cms"
 
 LICENSE="Apache-2.0 libressl? ( openssl )"
 SLOT="0"
@@ -42,6 +42,7 @@ DEPEND="
 RDEPEND="
 	${CDEPEND}
 	app-admin/sudo
+	net-firewall/iptables
 	net-misc/openssh
 	sys-apps/coreutils
 	sys-apps/iproute2
@@ -55,11 +56,16 @@ RDEPEND="
 	xfs? ( sys-fs/xfsprogs )
 "
 
-CONFIG_CHECK=""
+CONFIG_CHECK="~IP_NF_SECURITY"
+
+src_unpack() {
+	git-r3_src_unpack
+	unpack ${A}
+}
 
 pkg_setup() {
-	use f2fs && CONFIG_CHECK+=" ~CONFIG_F2FS_FS"
-	use xfs && CONFIG_CHECK+=" ~CONFIG_XFS_FS"
+	use f2fs && CONFIG_CHECK+=" ~F2FS_FS"
+	use xfs && CONFIG_CHECK+=" ~XFS_FS"
 	linux-info_pkg_setup
 	python-single-r1_pkg_setup
 }
@@ -75,8 +81,15 @@ python_prepare_all() {
 			"${S}"/config/waagent.conf || die
 	done
 
+	for fs in f2fs xfs; do
+		if use ${fs}; then
+			sed -i "s/^[# ]*\\(ResourceDisk\\.Filesystem\\)=.*/\\1=${fs}/" \
+				"${S}"/config/waagent.conf || die
+		fi
+	done
+
 	if use libressl; then
-		cp "${FILESDIR}"/Makefile.cms "${WORKDIR}/${A_CMS}" || die
+		cp "${FILESDIR}"/Makefile.cms "${WORKDIR}/${CMS_P}" || die
 		sed -i "s:/usr/bin/openssl:/var/lib/wagent/openssl-wrapper:" \
 			"${S}"/config/waagent.conf || die
 	fi
@@ -85,7 +98,7 @@ python_prepare_all() {
 }
 
 python_compile_all() {
-	use libressl && emake -f "${WORKDIR}/${A_CMS}"/Makefile.cms
+	use libressl && emake -C "${WORKDIR}/${CMS_P}" -f Makefile.cms
 }
 
 python_install() {
@@ -106,7 +119,7 @@ python_install_all() {
 
 	if use libressl; then
 		exeinto /var/lib/wagent
-		doexe "${WORKDIR}/${A_CMS}"/bin/cms
+		doexe "${WORKDIR}/${CMS_P}"/bin/cms
 		doexe "${FILESDIR}"/openssl-wrapper
 	fi
 
