@@ -9,6 +9,7 @@
     The Microsoft Azure Linux Agent (waagent) manages Linux provisioning and VM interaction with the Azure Fabric Controller.
   </longdescription>
   <use>
+    <flag name="firewall">Enable firewall</flag>
     <flag name="f2fs">Include F2FS support (<pkg>sys-fs/f2fs-tools</pkg>)</flag>
     <flag name="xfs">Include XFS support (<pkg>sys-fs/xfsprogs</pkg>, <pkg>sys-fs/xfsdump</pkg>)</flag>
   </use>

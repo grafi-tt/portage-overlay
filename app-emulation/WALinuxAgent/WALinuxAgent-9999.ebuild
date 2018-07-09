@@ -15,20 +15,24 @@ EGIT_REPO_URI="https://github.com/grafi-tt/${PN}"
 
 # LibreSSL doesn't support CMS, so use a single-function cms command,
 # ported from OpenSSL source, as OpenBSD team does.
+CLOUD_AGENT_PV="0.6"
 SRC_URI="
-	libressl? ( https://github.com/reyk/cloud-agent/archive/v0.6.tar.gz )
+	libressl? (
+		https://github.com/reyk/cloud-agent/archive/v${CLOUD_AGENT_PV}.tar.gz ->
+		cloud-agent-${CLOUD_AGENT_PV}.tar.gz
+	)
 "
-CMS_P="cloud-agent-0.6/cms"
+CMS_P="cloud-agent-${CLOUD_AGENT_PV}/cms"
 LIBEXEC="/usr/libexec/waagent"
 
 LICENSE="Apache-2.0 libressl? ( openssl )"
 SLOT="0"
 KEYWORDS=""
-IUSE="f2fs libressl systemd test xfs"
+IUSE="f2fs +firewall libressl systemd test xfs"
 
 CDEPEND="
 	sys-apps/grep
-	sys-apps/sed
+	>=sys-apps/sed-4
 	virtual/awk
 	!libressl? ( dev-libs/openssl:0= )
 	libressl? ( dev-libs/libressl:0= )
@@ -43,28 +47,30 @@ DEPEND="
 RDEPEND="
 	${CDEPEND}
 	app-admin/sudo
-	net-firewall/iptables
 	net-misc/openssh
+	sys-process/procps
 	sys-apps/coreutils
 	sys-apps/iproute2
 	sys-apps/util-linux
 	sys-block/parted
 	sys-fs/e2fsprogs
 	virtual/udev
+	firewall? ( net-firewall/iptables )
 	systemd? ( sys-apps/systemd )
 	!systemd? ( net-misc/dhcpcd )
 	f2fs? ( sys-fs/f2fs-tools )
 	xfs? ( sys-fs/xfsprogs )
 "
 
-CONFIG_CHECK="~IP_NF_SECURITY"
+CONFIG_CHECK=""
 
 src_unpack() {
 	git-r3_src_unpack
-	unpack ${A}
+	use libressl && unpack ${A}
 }
 
 pkg_setup() {
+	use firewall && CONFIG_CHECK+=" ~IP_NF_SECURITY"
 	use f2fs && CONFIG_CHECK+=" ~F2FS_FS"
 	use xfs && CONFIG_CHECK+=" ~XFS_FS"
 	linux-info_pkg_setup
@@ -81,6 +87,10 @@ python_prepare_all() {
 		sed -i "s:^[# ]*\\(${key}\\)=\\(.*\\):\\1=${EPREFIX}\\2:" \
 			"${S}"/config/waagent.conf || die
 	done
+
+	use firewall && firewall_val="y" || firewall_val="n"
+	sed -i "s/^[# ]*\\(OS\\.EnableFirewall\\)=.*/\\1=${firewall_val}/" \
+		"${S}"/config/waagent.conf || die
 
 	for fs in f2fs xfs; do
 		if use ${fs}; then
