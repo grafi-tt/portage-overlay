@@ -1,0 +1,11 @@
+#!/bin/sh
+
+if [ "$#" -eq 0 ]; then
+	echo "no argument?" >&2
+	exit 1
+elif [ "$1" = "cms" ]; then
+	shift
+	"$(dirname "$0")"/cms "$@"
+else
+	openssl "$@"
+fi

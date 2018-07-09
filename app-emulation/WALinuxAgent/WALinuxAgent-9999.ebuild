@@ -13,7 +13,14 @@ HOMEPAGE="https://github.com/Azure/WALinuxAgent"
 #EGIT_REPO_URI="https://github.com/Azure/${PN}"
 EGIT_REPO_URI="https://github.com/grafi-tt/${PN}"
 
-LICENSE="Apache-2.0"
+# LibreSSL doesn't support CMS, so use a single-function cms command,
+# ported from OpenSSL source, as OpenBSD team does.
+SRC_URI="
+	libressl? ( https://github.com/reyk/cloud-agent/archive/v0.6.tar.gz )
+"
+A_CMS="cloud-agent-0.6/cms"
+
+LICENSE="Apache-2.0 libressl? ( openssl )"
 SLOT="0"
 KEYWORDS=""
 IUSE="f2fs libressl systemd test xfs"
@@ -58,18 +65,33 @@ pkg_setup() {
 }
 
 python_prepare_all() {
-	sed -i "s/\\(AGENT_VERSION\\) = .*/\\1 = '9999'/" \
-		"${S}"/azurelinuxagent/common/version.py || die
 	sed -i "s/\\(self\\.agent_conf_file_path\\) = \\(.*\\)/\\1 = '${EPREFIX}' \\2/" \
 		"${S}"/azurelinuxagent/common/osutil/default.py || die
 
+	sed -i "s:OS\\.OpensslPath=None:OS\\.OpensslPath=/usr/bin/openssl:" \
+		"${S}"/config/waagent.conf || die
+	for key in "OS\\.OpensslPath" "Lib\\.Dir" "Pid\\.File" "Extension\\.LogDir"; do
+		sed -i "s:^[# ]*\\(${key}\\)=\\(.*\\):\\1=${EPREFIX}\\2:" \
+			"${S}"/config/waagent.conf || die
+	done
+
+	if use libressl; then
+		cp "${FILESDIR}"/Makefile.cms "${WORKDIR}/${A_CMS}" || die
+		sed -i "s:/usr/bin/openssl:/var/lib/wagent/openssl-wrapper:" \
+			"${S}"/config/waagent.conf || die
+	fi
+
 	distutils-r1_python_prepare_all
+}
+
+python_compile_all() {
+	use libressl && emake -f "${WORKDIR}/${A_CMS}"/Makefile.cms
 }
 
 python_install() {
 	distutils-r1_python_install "--skip-data-files"
 
-	sed -i "1s%^#!/usr/bin/env python$%#!${EPYTHON}%" "${S}"/bin/waagent
+	sed -i "1s:^#!/usr/bin/env python$:#!${EPYTHON}:" "${S}"/bin/waagent
 	dosbin "${S}"/bin/waagent
 }
 
@@ -81,6 +103,12 @@ python_install_all() {
 
 	insinto /etc/logrotate.d
 	doins "${S}"/config/waagent.logrotate
+
+	if use libressl; then
+		exeinto /var/lib/wagent
+		doexe "${WORKDIR}/${A_CMS}"/bin/cms
+		doexe "${FILESDIR}"/openssl-wrapper
+	fi
 
 	newinitd "${S}"/init/gentoo/waagent waagent
 	systemd_dounit "${S}"/init/waagent.service

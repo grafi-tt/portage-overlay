@@ -1,0 +1,5 @@
+PROG := bin/cms
+SRCS := $(filter-out $(PROG).c, $(wildcard bin/*.c lib/*.c))
+CFLAGS := $(CFLAGS) -Ilib -D__BEGIN_HIDDEN_DECLS= -D__END_HIDDEN_DECLS=
+LDFLAGS := -lcrypto
+$(PROG): $(SRCS:.c=.o)
