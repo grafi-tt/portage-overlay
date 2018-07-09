@@ -4,7 +4,7 @@
 EAPI=6
 PYTHON_COMPAT=( python2_7 python3_{4,5,6} )
 DISTUTILS_SINGLE_IMPL=1
-PYTHON_REQ_USE="xml"
+PYTHON_REQ_USE="ssl,xml"
 
 inherit distutils-r1 git-r3 linux-info systemd udev
 
@@ -19,6 +19,7 @@ SRC_URI="
 	libressl? ( https://github.com/reyk/cloud-agent/archive/v0.6.tar.gz )
 "
 CMS_P="cloud-agent-0.6/cms"
+LIBEXEC="/usr/libexec/waagent"
 
 LICENSE="Apache-2.0 libressl? ( openssl )"
 SLOT="0"
@@ -90,7 +91,7 @@ python_prepare_all() {
 
 	if use libressl; then
 		cp "${FILESDIR}"/Makefile.cms "${WORKDIR}/${CMS_P}" || die
-		sed -i "s:/usr/bin/openssl:/var/lib/wagent/openssl-wrapper:" \
+		sed -i "s:/usr/bin/openssl:${LIBEXEC}/openssl-wrapper:" \
 			"${S}"/config/waagent.conf || die
 	fi
 
@@ -118,7 +119,7 @@ python_install_all() {
 	doins "${S}"/config/waagent.logrotate
 
 	if use libressl; then
-		exeinto /var/lib/wagent
+		exeinto "${LIBEXEC}"
 		doexe "${WORKDIR}/${CMS_P}"/bin/cms
 		doexe "${FILESDIR}"/openssl-wrapper
 	fi
