@@ -62,6 +62,10 @@ RDEPEND="
 	xfs? ( sys-fs/xfsprogs )
 "
 
+PATCHES=(
+	"${FILESDIR}"/"${PN}"-no-p7m-recip-key.patch
+)
+
 CONFIG_CHECK=""
 
 src_unpack() {
