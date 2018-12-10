@@ -12,7 +12,7 @@ SRC_URI="https://github.com/tpm2-software/${PN}/releases/download/${PV}/${P}.tar
 LICENSE="BSD-2"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="doc gcrypt libressl static-libs"
+IUSE="doc gcrypt libressl"
 
 BDEPEND="virtual/pkgconfig
 	doc? ( app-doc/doxygen )"
@@ -63,6 +63,5 @@ src_configure() {
 	econf \
 		$(use_enable doc doxygen-doc) \
 		$(use gcrypt && echo --with-crypto=gcrypt) \
-		$(use !gcrypt && echo --with-crypto=ossl) \
-		$(use_enable static-libs static)
+		$(use !gcrypt && echo --with-crypto=ossl)
 }
