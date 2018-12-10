@@ -12,6 +12,10 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE="libressl"
 
+PATCHES=(
+	"${FILESDIR}/tpm2-tools-3.1.3-fix-libressl-build.patch"
+)
+
 BDEPEND="virtual/pkgconfig"
 DEPEND=">=app-crypt/tpm2-tss-2.0
 	net-misc/curl

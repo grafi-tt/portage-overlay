@@ -12,16 +12,13 @@ SRC_URI="https://github.com/tpm2-software/${PN}/releases/download/${PV}/${P}.tar
 LICENSE="BSD-2"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="doc gcrypt libressl"
+IUSE="doc gcrypt"
 
 BDEPEND="virtual/pkgconfig
 	doc? ( app-doc/doxygen )"
 DEPEND="
 	gcrypt? ( dev-libs/libgcrypt:0= )
-	!gcrypt? (
-		!libressl? ( dev-libs/openssl:0= )
-		libressl? ( dev-libs/libressl:0= )
-	)"
+	!gcrypt? ( dev-libs/openssl:0= )"
 RDEPEND="${DEPEND}"
 
 # https://github.com/tpm2-software/tpm2-tss/commit/74037d3c15b9f9d98f9b50ca4f1c1a99d239d751
