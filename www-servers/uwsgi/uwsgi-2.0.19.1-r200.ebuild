@@ -4,7 +4,7 @@
 EAPI=7
 
 LUA_COMPAT=( lua5-1 )
-PYTHON_COMPAT=( python2_7 python3_{7,8} )
+PYTHON_COMPAT=( python2_7 )
 PYTHON_REQ_USE="threads(+)"
 
 RUBY_OPTIONAL="yes"
@@ -17,7 +17,7 @@ USE_PHP="php7-2 php7-3 php7-4" # deps must be registered separately below
 
 MY_P="${P/_/-}"
 
-inherit flag-o-matic lua-single pax-utils php-ext-source-r3 python-r1 ruby-ng
+inherit flag-o-matic lua-single pax-utils php-ext-source-r3 python-any-r1 ruby-ng
 
 DESCRIPTION="uWSGI server for Python web applications"
 HOMEPAGE="https://projects.unbit.it/uwsgi/"
@@ -70,8 +70,6 @@ REQUIRED_USE="|| ( ${LANG_SUPPORT_SIMPLE[@]} ${LANG_SUPPORT_EXTENDED[@]} )
 	uwsgi_plugins_router_xmldir? ( xml !expat )
 	lua? ( ${LUA_REQUIRED_USE} )
 	python? ( ${PYTHON_REQUIRED_USE} )
-	python-asyncio? ( || ( $(python_gen_useflags -3) ) )
-	python-gevent? ( python )
 	expat? ( xml )"
 
 # util-linux is required for libuuid when requesting zeromq support
@@ -123,8 +121,6 @@ CDEPEND="
 		php_targets_php7-4? ( dev-lang/php:7.4[embed] )
 	)
 	python? ( ${PYTHON_DEPS} )
-	python-asyncio? ( virtual/python-greenlet[${PYTHON_USEDEP}] )
-	python-gevent? ( >=dev-python/gevent-1.3.5[${PYTHON_USEDEP}] )
 	ruby? ( $(ruby_implementations_depend) )"
 DEPEND="${CDEPEND}"
 RDEPEND="${CDEPEND}
@@ -247,20 +243,6 @@ python_compile_plugins() {
 	PYV=${EPYV/python}
 
 	${PYTHON} uwsgiconfig.py --plugin plugins/python gentoo ${EPYV} || die "building plugin for ${EPYTHON} failed"
-
-	if use python-asyncio ; then
-		if [[ "${PYV}" != "27" ]] ; then
-			${PYTHON} uwsgiconfig.py --plugin plugins/asyncio gentoo asyncio${PYV} || die "building plugin for asyncio-support in ${EPYTHON} failed"
-		fi
-	fi
-
-	if use python-gevent ; then
-		${PYTHON} uwsgiconfig.py --plugin plugins/gevent gentoo gevent${PYV} || die "building plugin for gevent-support in ${EPYTHON} failed"
-	fi
-
-	if use python-gevent || use python-asyncio; then
-			${PYTHON} uwsgiconfig.py --plugin plugins/greenlet gentoo greenlet${PYV} || die "building plugin for greenlet-support in ${EPYTHON} failed"
-	fi
 }
 
 python_install_symlinks() {
