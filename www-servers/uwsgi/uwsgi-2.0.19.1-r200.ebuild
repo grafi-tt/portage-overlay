@@ -244,10 +244,6 @@ python_compile_plugins() {
 	${PYTHON} uwsgiconfig.py --plugin plugins/python gentoo ${EPYV} || die "building plugin for ${EPYTHON} failed"
 }
 
-python_install_symlinks() {
-	dosym uwsgi /usr/bin/uwsgi_${EPYTHON/.}
-}
-
 src_compile() {
 	mkdir -p "${T}/plugins" || die
 
@@ -295,11 +291,6 @@ src_install() {
 		for s in $(php_get_slots); do
 			dosym uwsgi /usr/bin/uwsgi_${s/.}
 		done
-	fi
-
-	if use python ; then
-		python_foreach_impl python_install_symlinks
-		python_foreach_impl python_domodule uwsgidecorators.py
 	fi
 
 	newinitd "${FILESDIR}"/uwsgi.initd-r7 uwsgi
