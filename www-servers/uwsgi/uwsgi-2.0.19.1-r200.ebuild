@@ -69,7 +69,6 @@ REQUIRED_USE="|| ( ${LANG_SUPPORT_SIMPLE[@]} ${LANG_SUPPORT_EXTENDED[@]} )
 	uwsgi_plugins_forkptyrouter? ( uwsgi_plugins_corerouter )
 	uwsgi_plugins_router_xmldir? ( xml !expat )
 	lua? ( ${LUA_REQUIRED_USE} )
-	python? ( ${PYTHON_REQUIRED_USE} )
 	expat? ( xml )"
 
 # util-linux is required for libuuid when requesting zeromq support
@@ -271,7 +270,7 @@ src_compile() {
 	fi
 
 	if use python ; then
-		python_foreach_impl python_compile_plugins
+		python_compile_plugins
 	fi
 
 	if use ruby ; then
