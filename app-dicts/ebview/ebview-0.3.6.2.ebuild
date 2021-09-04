@@ -21,7 +21,7 @@ RDEPEND=">=dev-libs/eb-3.3.4
 	>=x11-libs/gtk+-2.2"
 DEPEND="${RDEPEND}
 	sys-devel/gettext
-	dev-util/pkgconfig"
+	virtual/pkgconfig"
 
 src_prepare() {
 	epatch "${FILESDIR}"/${P}-destdir.patch
