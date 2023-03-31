@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
-<pkgmetadata>
-	<herd>haskell</herd>
-	<longdescription>
-		A library for parsing\/printing vCards from\/to various formats.
-		Currently only vCard 3.0 defined in RFC 2426 is supported.
-	</longdescription>
-</pkgmetadata>
